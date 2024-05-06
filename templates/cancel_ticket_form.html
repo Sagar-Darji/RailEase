@@ -24,15 +24,38 @@
             </a>
         </div>
     </nav>
-    <h3>Cancel a Ticket</h3>
+    <div class="container mt-3">
+        <div class="container mt-3">
+            <h3>Cancel a Ticket</h3>
+            <form action="/cancel_ticket" method="post">
+                <div class="mb-3 mt-3">
+                    <label for="passenger_ssn">Passenger SSN:</label>
+                    <input type="number" class="form-control" id="passenger_ssn" placeholder="Enter Paasenger SSN" name="passenger_ssn" required>
+                </div>
+                <!-- <label for="passenger_ssn">Passenger SSN:</label>
+                <input type="text" id="passenger_ssn" name="passenger_ssn" required><br><br> -->
+                <div class="mb-3 mt-3">
+                    <label for="train_number">Train Number:</label>
+                    <input type="number" class="form-control" id="train_number" placeholder="Enter Train Number" name="train_number" required>
+                </div>
+                <!-- <label for="train_number">Train Number:</label>
+                <input type="text" id="train_number" name="train_number" required><br><br> -->
+                <button type="submit" class="btn btn-primary" value="Cancel Ticket">Submit</button>
+                <!-- <input type="submit" value="Cancel Ticket"> -->
+            </form>
+        </div>
+        <div id="search-results" class="container mt-3">
+            <h3>Ticket Cancellation</h3>
+            <p>{{ message }}</p>
+        </div>
+    </div>
+    <!-- <h3>Cancel a Ticket</h3>
     <form action="/cancel_ticket" method="post">
         <label for="passenger_ssn">Passenger SSN:</label>
         <input type="text" id="passenger_ssn" name="passenger_ssn" required><br><br>
         <label for="train_number">Train Number:</label>
         <input type="text" id="train_number" name="train_number" required><br><br>
         <input type="submit" value="Cancel Ticket">
-    </form>
-    <h3>Ticket Cancellation</h3>
-    <p>{{ message }}</p>
+    </form> -->
 </body>
 </html>

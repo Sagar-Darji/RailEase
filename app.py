@@ -110,6 +110,33 @@ def passenger_count():
     
     return render_template('train_counts.html', counts=counts)
 
+# Task 5: Search for Passengers on a Train
+@app.route('/search_train_passengers')
+def search_train_passengers_form():
+    return render_template('search_train_passengers.html')
+
+@app.route('/search_train_passengers', methods=['POST'])
+def search_train_passengers():
+    train_name = request.form['train_name'].title()
+    
+    conn = sqlite3.connect('temp_railway_reservation.db')
+    cur = conn.cursor()
+    
+    cur.execute('''
+        SELECT Passenger.first_name, Passenger.last_name, Passenger.address, Train.TrainNumber, 
+               Train." TrainName", Booked.Ticket_Type, Booked.Staus
+        FROM Train
+        JOIN Booked ON Train.TrainNumber = Booked.Train_Number
+        JOIN Passenger ON Booked.Passanger_ssn = Passenger.SSN
+        WHERE Train." TrainName" = ? AND Booked.Staus = 'Booked'
+    ''', (train_name,))
+    
+    passengers = cur.fetchall()
+    conn.close()
+    
+    return render_template('search_train_passengers.html', passengers=passengers, train_name=train_name)
+
+
 # Task 6: Cancel a Ticket and Update the Waiting List
 @app.route('/cancel_ticket_form')
 def cancel_ticket_form():
@@ -135,7 +162,7 @@ def cancel_ticket():
     # Check for waiting list passengers
     cur.execute('''
         SELECT Passanger_ssn FROM Booked
-        WHERE Train_Number = ? AND Status = 'Waiting'
+        WHERE Train_Number = ? AND Staus = 'WaitL'
         LIMIT 1
     ''', (train_number,))
     waiting_passenger = cur.fetchone()
@@ -144,7 +171,7 @@ def cancel_ticket():
         # Update the first waiting passenger to confirmed
         cur.execute('''
             UPDATE Booked
-            SET Status = 'Confirmed'
+            SET Staus = 'Booked'
             WHERE Passanger_ssn = ?
         ''', (waiting_passenger[0],))
     

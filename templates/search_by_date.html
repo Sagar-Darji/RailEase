@@ -24,26 +24,36 @@
             </a>
         </div>
     </nav>
-    <h3>Search Passengers by Date</h3>
-    <form action="/search_by_date" method="post">
-        <label for="date">Date (YYYY-MM-DD):</label>
-        <input type="date" id="date" name="date" required><br><br>
-        <input type="submit" value="Search">
-    </form>
-    <h3>Passengers by Date</h3>
-    <table border="1">
-        <tr>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Train Number</th>
-        </tr>
-        {% for passenger in passengers %}
-        <tr>
-            <td>{{ passenger[0] }}</td>
-            <td>{{ passenger[1] }}</td>
-            <td>{{ passenger[2] }}</td>
-        </tr>
-        {% endfor %}
-    </table>
+    <div class="container mt-3">
+        <div class="container mt-3">
+            <h3>Search Passengers by Date</h3>
+            <form action="/search_by_date" method="post">
+               
+                <div class="mb-3 mt-3">
+                    <label for="date">Date:</label>
+                    <input type="date" class="form-control" id="date" name="date" required>
+                </div>
+                <button type="submit" class="btn btn-primary" value="Search">Submit</button>
+            </form>
+        </div>
+        <div id="search-results" class="container mt-3">
+            <h3>Passengers by Date</h3>
+            <table class="table">
+                <tr>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Last Name</th>
+                    <th scope="col">Train Number</th>
+                </tr>
+                {% for passenger in passengers %}
+                <tr>
+                    <td scope="row">{{ passenger[0] }}</td>
+                    <td scope="row">{{ passenger[1] }}</td>
+                    <td scope="row">{{ passenger[2] }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+
 </body>
 </html>
