@@ -42,13 +42,19 @@
                 <tr>
                     <th scope="col">First Name</th>
                     <th scope="col">Last Name</th>
-                    <th scope="col">Train Number</th>
+                    <th scope="col">Train Name</th>
+                    <th scope="col">Source Station</th>
+                    <th scope="col">Destination Station</th>
+                    <th scope="col">Ticket Type</th>
                 </tr>
                 {% for passenger in passengers %}
                 <tr>
                     <td scope="row">{{ passenger[0] }}</td>
                     <td scope="row">{{ passenger[1] }}</td>
                     <td scope="row">{{ passenger[2] }}</td>
+                    <td scope="row">{{ passenger[3] }}</td>
+                    <td scope="row">{{ passenger[4] }}</td>
+                    <td scope="row">{{ passenger[5] }}</td>
                 </tr>
                 {% endfor %}
             </table>

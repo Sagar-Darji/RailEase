@@ -9,11 +9,11 @@ app = Flask(__name__)
 def index():
     return render_template('index.html')
 
+# Task 1: Retrieve All Trains Booked by a Passenger (search_by_name)
 @app.route('/search_by_name')
 def search_by_name_form():
     return render_template('search_by_name.html')
 
-# # Task 1: Retrieve All Trains Booked by a Passenger (search_by_name)
 @app.route('/search_by_name', methods=['POST'])
 def search_by_name():
     first_name = request.form['first_name'].title()
@@ -35,23 +35,36 @@ def search_by_name():
     
     return render_template('search_by_name.html', bookings=bookings)
 
+# # Task 2: List of Passengers Traveling on a Specific Date with Confirmed Tickets
 @app.route('/search_by_date')
 def search_by_date_form():
     return render_template('search_by_date.html')
 
 @app.route('/search_by_date', methods=['POST'])
 def search_by_date():
-    date_input = request.form['date']
-    
-    conn = sqlite3.connect('railway_reservation.db')
+    date_input = request.form['date'] + ' 00:00:00'
+
+    conn = sqlite3.connect('temp_railway_reservation.db')
     cur = conn.cursor()
     
     cur.execute('''
-        SELECT Passenger.first_name, Passenger.last_name, Booked.Train_Number
-        FROM Passenger
-        JOIN Booked ON Passenger.SSN = Booked.Passanger_ssn
-        JOIN Train_Status ON Booked.Train_Number = Train_Status.TrainName
-        WHERE Train_Status.TrainDate = ? AND Booked.Status = 'Confirmed'
+                SELECT 
+                        Passenger.first_name,
+                        Passenger.last_name,
+                        Train." TrainName" ,
+                        Train." SourceStation" ,
+                        Train." DestinationStation",
+                        Booked.Ticket_Type
+                FROM
+                        Passenger
+                JOIN
+                        Booked ON Passenger.SSN = Booked.Passanger_ssn
+                JOIN
+                        Train ON Train.TrainNumber = Booked.Train_Number
+                JOIN
+                        Train_Status ON Train." TrainName"  = Train_Status." TrainName"
+                WHERE
+                        Booked.Staus = 'Booked' AND Train_Status.TrainDate  = ?
     ''', (date_input,))
     
     passengers = cur.fetchall()
@@ -59,14 +72,15 @@ def search_by_date():
     
     return render_template('search_by_date.html', passengers=passengers)
 
+# Task 3: Display Train and Passenger Information for Ages 50 to 60
 @app.route('/search_by_age')
 def search_by_age_form():
     return render_template('search_by_age.html')
 
 @app.route('/search_by_age', methods=['POST'])
 def search_by_age():
-    age_from = int(request.form['age_from'])
-    age_to = int(request.form['age_to'])
+    age_from = int(request.form['fromInput'])
+    age_to = int(request.form['toInput'])
 
     conn = sqlite3.connect('temp_railway_reservation.db')
     cur = conn.cursor()
@@ -84,7 +98,7 @@ def search_by_age():
     today = datetime.today()
     filtered_passengers = [
         passenger for passenger in cur.fetchall()
-        if age_from <= (today.year - datetime.strptime(passenger[9], "%Y-%m-%d").year) <= age_to
+        if age_from <= (today.year - datetime.strptime(passenger[9], "%Y-%m-%d 00:00:00").year) <= age_to
     ]
     
     conn.close()
