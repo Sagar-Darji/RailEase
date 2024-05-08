@@ -113,7 +113,7 @@ def passenger_count():
     cur = conn.cursor()
     
     cur.execute('''
-        SELECT Train.TrainNumber, COUNT(Booked.Passanger_ssn) AS Passenger_Count
+        SELECT Train." TrainName", COUNT(Booked.Passanger_ssn) AS Passenger_Count
         FROM Train
         JOIN Booked ON Train.TrainNumber = Booked.Train_Number
         GROUP BY Train.TrainNumber
@@ -180,6 +180,7 @@ def cancel_ticket():
         LIMIT 1
     ''', (train_number,))
     waiting_passenger = cur.fetchone()
+    print(waiting_passenger)
     
     if waiting_passenger:
         # Update the first waiting passenger to confirmed

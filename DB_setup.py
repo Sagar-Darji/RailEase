@@ -2,7 +2,7 @@ import sqlite3
 import pandas as pd
 
 # Connect to SQLite database
-conn = sqlite3.connect('/Users/sagardarji/Library/CloudStorage/OneDrive-UTArlington/Mac/FOC/DB Project/RailEase/temp_railway_reservation.db')
+conn = sqlite3.connect('/Users/sagardarji/Library/CloudStorage/OneDrive-UTArlington/Mac/FOC/DB Project/RailEase/railway_reservation.db')
 
 # Read CSV files into DataFrame
 df_train = pd.read_csv('/Users/sagardarji/Library/CloudStorage/OneDrive-UTArlington/Mac/FOC/DB Project/RRS//Train.csv')

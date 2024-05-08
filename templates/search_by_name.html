@@ -47,7 +47,7 @@
                     <label for="last_name">Last Name:</label>
                     <input type="text" class="form-control" id="last_name" placeholder="Enter Last Name" name="last_name" required>
                 </div>
-                <button type="submit" class="btn btn-primary" value="Search">Submit</button>
+                <button id="submitbutton" type="submit" class="btn btn-primary" value="Search">Submit</button>
             </form>
         </div>
         <div id="search-results" class="container mt-3">
@@ -76,10 +76,11 @@
             </table>
         </div>
     </div>
-    <script>
-        function showSearchResults() {
-            document.getElementById("search-results").style.display = "block";
-        }
-    </script>
+    <!-- <script>
+        document.getElementById("submitbutton").addEventListener("click", function() {
+            var myDiv = document.getElementById("search-results");
+            myDiv.style.display = "block";
+        });
+    </script> -->
 </body>
 </html>
